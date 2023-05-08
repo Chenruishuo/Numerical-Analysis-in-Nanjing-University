@@ -1,0 +1,97 @@
+\documentclass[a4paper,11pt,notitlepage]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[UTF8]{ctex}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{changepage}
+\usepackage{enumitem}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage[backend=biber]{biblatex}
+
+\usepackage{titlesec}
+\titleformat{\section}{\bfseries\Large}{$\S$\,\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries\large}{\Roman{subsection}}{1em}{}
+\titleformat{\subsubsection}{\bfseries\normalsize}{\roman{subsubsection}}{1em}{}
+\titlespacing*{\subsection}{2em}{2pt}{2pt}
+\titlespacing*{\subsubsection}{3em}{2pt}{2pt}
+\title{\vspace{-1.5cm} \textbf{\huge{数值分析第章上机}}\vspace{-1em}}
+\author{By 211870125 陈睿硕}
+\date{}
+
+\usepackage{geometry}
+\geometry{left=2cm,right=2cm,top=2cm,bottom=2cm}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Chapter }
+\fancyhead[R]{\thepage}
+\setlength{\headheight}{14pt}
+
+\usepackage{listings}  % 引入 listings 包
+\lstset{                % 定义代码块的样式
+    basicstyle=\normalsize\ttfamily, % 设定代码字体大小、样式
+    showspaces=false,   % 不显示空格
+    showstringspaces=false, % 不显示字符串中的空格
+    showtabs=false,     % 不显示制表符
+    frame=single,       % 设定代码块边框样式
+    rulecolor=\color{black}, % 设定代码块边框颜色
+    tabsize=4,          % 设定制表符长度为 4 个字符
+    captionpos=t,       % 设定标题位置为底部
+    keywordstyle=\bfseries\color{blue}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    commentstyle=\color{green}\ttfamily,
+    morecomment=[l][\color{magenta}]{\#},
+    framesep=0.5em,
+    frameround=tttt,
+    breaklines=true,    % 自动换行
+    breakatwhitespace=false, % 只在空格分割处换行
+    escapeinside={\%*}{*)}   % 允许使用 LaTeX 命令
+}
+\renewcommand{\lstlistingname}{代码}
+
+\usepackage{hyperref}
+\usepackage{cleveref}
+\crefname{theorem}{定理}{定理}
+\crefname{figure}{图}{图}
+\crefname{equation}{式}{式}
+\crefname{listing}{代码}{代码}
+
+\begin{document}
+\maketitle
+\vspace{-1cm}
+\thispagestyle{fancy}
+
+\section{问题}
+\begin{adjustwidth}{1em}{0pt}
+\begin{enumerate}[label=\textbf{Q\arabic*}]
+    \item 
+\end{enumerate}
+\end{adjustwidth}
+
+\section{算法思路}
+\subsection{对\ref{Q1}的解答}
+
+\section{结果分析}
+\subsection{对\ref{Q1}的分析}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{}
+    \caption{}
+    \label{}
+\end{figure}
+
+\subsubsection{}
+\begin{adjustwidth}{1em}{0pt}
+\qquad
+\end{adjustwidth}
+
+\section{附录：程序代码}
+\begin{lstlisting}[language=,caption={caption text}]{}
+
+\end{lstlisting}
+\end{document}
