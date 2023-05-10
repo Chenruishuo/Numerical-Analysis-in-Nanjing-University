@@ -6,15 +6,15 @@ def f(x):
     return 4 / (1 + x**2)
 
 
-def composite_trapezoidal(a, b, h):
-    n = int((b - a) / h)
+def composite_trapezoidal(f, a, b, h):
+    n = int((b - a) / (2 * h)) * 2
     x = np.linspace(a, b, n+1)
     y = f(x)
     s = (y[0] + y[n] + 2 * np.sum(y[1:n])) * h / 2
     return s
 
 
-def composite_simpson(a, b, h):
+def composite_simpson(f, a, b, h):
     n = int((b - a) / h)
     x = np.linspace(a, b, n+1)
     y = f(x)
@@ -30,8 +30,8 @@ simp_errors = np.array([])
 h_values = np.array([0.5**i for i in range(1, 23)])
 
 for i in h_values:
-    trap_error = np.abs(composite_trapezoidal(a, b, i) - np.pi)
-    simp_error = np.abs(composite_simpson(a, b, i) - np.pi)
+    trap_error = np.abs(composite_trapezoidal(f, a, b, i) - np.pi)
+    simp_error = np.abs(composite_simpson(f, a, b, i) - np.pi)
     trap_errors = np.append(trap_errors, trap_error)
     simp_errors = np.append(simp_errors, simp_error)
 

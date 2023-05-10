@@ -1,0 +1,50 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def f(x):
+    return 4 / (1 + x**2)
+
+def composite_simpson(f, a, b, h):
+    n = int((b - a) / (2 * h)) * 2
+    x = np.linspace(a, b, n+1)
+    y = f(x)
+    s = (y[0] + y[n] + 4 * np.sum(y[1:n:2]) + 2 * np.sum(y[2:n-1:2])) * h / 3
+    return s
+
+def adaptive_integration(f, a, b, h, epsilon=1e-6, max_depth=50):
+    x0 = a
+    x2 = b
+    x1 = (a + b) / 2.0
+    S0 = composite_simpson(f, a, b, (b-a)/2)
+    S1 = composite_simpson(f, x0, x1, (x1-x0)/2)
+    S2 = composite_simpson(f, x1, x2, (x2-x1)/2)
+    error = abs(S0 - S1 - S2)
+    if error < epsilon or max_depth == 0:
+        return S1 + S2
+    else:
+        left_integral = adaptive_integration(
+            f, x0, x1, epsilon / 2, h / 2, max_depth - 1)
+        right_integral = adaptive_integration(
+            f, x1, x2, epsilon / 2, h / 2, max_depth - 1)
+        return left_integral + right_integral
+
+
+a, b = 0, 1
+
+adaptive_errors = np.array([])
+
+h_values = np.array([0.5**i for i in range(1, 60)])
+
+for i in h_values:
+    adaptive_error = np.abs(adaptive_integration(f, a, b, i) - np.pi)
+    adaptive_errors = np.append(adaptive_errors, adaptive_error)
+
+plt.plot(h_values, adaptive_errors, label="Adaptive")
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel('h')
+plt.ylabel('Error')
+plt.gca().invert_xaxis()
+plt.legend()
+plt.show()

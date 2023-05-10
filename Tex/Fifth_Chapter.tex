@@ -73,8 +73,8 @@
           并比较两方法的精度。是否存在某个 h 值，当低于这个值之后再继续减小 h 的值，计算不再有所改进？为什么？\label{Q1}\notag
     \item 实现 Romberg 求积方法，重复\ref{Q1}的过程。\label{Q2}\notag
     \item 实现 自适应积分方法，重复\ref{Q1}的过程。\label{Q3}\notag
-    \item 用等距节点$x_{i}=-5+i,i=0,1,\cdots,10.$给出它的三次自然样条插值函数的图像；\label{Q4}\notag
-    \item 用等距节点$x_{i}=-5+i,i=0,1,\cdots,10.$给出它的分段三次Hermite插值函数的图像；\label{Q5}\notag
+    \item 用所掌握的所有数值积分方法计算积分$\int_{0}^{\infty}\frac{x^3}{e^x-1}dx$，
+          并比较不同方法的计算效率和精度。\label{Q4}\notag
 \end{enumerate}
 \end{adjustwidth}
 
@@ -84,50 +84,42 @@
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../picture/Fifth_Chapter_1A.png}
-    \caption{10次Newton插值多项式}
+    \caption{复合梯形，复合 Simpson 求积法的误差随h的变化}
     \label{pic:1}
 \end{figure}
 
 \subsection{对\ref{Q2}的解答}
-使用Python实现，代码见\cref{code2.1}。
-如\cref{pic:2}。
+使用Python实现，代码见\cref{code1.2}。得到h和误差（绝对值）的关系如\cref{pic:2}。
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../picture/Fourth_Week_1B.png}
-    \caption{20次Lagrange插值多项式}
+    \includegraphics[width=0.8\textwidth]{../picture/Fifth_Chapter_1B.png}
+    \caption{Romberg求积法的误差随h的变化}
     \label{pic:2}
 \end{figure}
 
 \subsection{对\ref{Q3}的解答}
-使用Python实现，代码见\cref{code3.1}。
-如\cref{pic:3}。
+使用Python实现，代码见\cref{code1.3}。得到h和误差（绝对值）的关系如\cref{pic:3}。
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../picture/Fourth_Week_1C.png}
-    \caption{分段线性插值函数}
+    \includegraphics[width=0.8\textwidth]{../picture/Fifth_Chapter_1C.png}
+    \caption{自适应Simpson积分方法的误差随h的变化}
     \label{pic:3}
 \end{figure}
 
 \subsection{对\ref{Q4}的解答}
-可以快捷地调用scipy.interpolate中的CubicSpline库完成，见\cref{code4.1}。也可以”从零开始“，
-将三次样条插值函数展开，使用Python程序计算其系数，见\cref{code4.2}。
-如\cref{pic:4}。
+我们使用了复合梯形公式、复合Simpson公式、Romberg积分法、自适应积分法，代码见\cref{code2.1}。
+得到计算出的误差（用数学方法可以算出此积分的精确值为$\frac{\pi^4}{15}$）和h的关系如\cref{pic:4}。
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../picture/Fourth_Week_1D.png}
-    \caption{三次自然样条插值函数}
+    \includegraphics[width=0.8\textwidth]{../picture/Fifth_Chapter_2.png}
+    \caption{多种方法计算积分的误差}
     \label{pic:4}
 \end{figure}
-
-\subsection{对\ref{Q5}的解答}
-调用scipy.interpolate中的PchipInterpolator库完成，见\cref{code5.1}。也可以”从零开始“。
-由于此处是等距插值，故可以手动解出$m_{i},i=1,2,\cdots,n+1$（书上记号），写出系数表达式，从而直接求出每个小区间
-的三次Hermite插值多项式。见\cref{code5.2}。
-如\cref{pic:5}。
+得到各种方法在h取不同值的计算时间如\cref{pic:5}。
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../picture/Fourth_Week_1E.png}
-    \caption{分段三次Hermite插值函数}
+    \includegraphics[width=0.8\textwidth]{../picture/Fifth_Chapter_2(1).png}
+    \caption{多种方法计算积分的运行时间}
     \label{pic:5}
 \end{figure}
 
@@ -135,22 +127,45 @@
 \subsection{对\ref{Q1}的分析}
 可以看到，h和误差的关系在h不特别小时几乎是对数线性关系，对于复合积分法$Error\approx 10^{-0.77821}h^{2.0000}$，
 而对于复合Simpson法$Error\approx 10^{-0.46800}h^{6.6460}$。\\
-我们知道，复合梯形公式的误差（绝对值）$Error=\frac{1}{12}h^2f''(\xi )$，其中$\xi \in (0,1)$，
+\indent 我们知道，复合梯形公式的误差（绝对值）$Error=\frac{1}{12}h^2f''(\xi )$，其中$\xi \in (0,1)$，
 这与我们的估计式相吻合（$f''(x)$在$[0,1]$上变化不大）。\\
-而复合Simpson公式的误差（绝对值）$Error=\frac{1}{180}h^4f''(\xi )$，其中$\xi \in (0,1)$,
-这就与我们的估计式有一定的差距，可能是因为拟合的位置h值还比较大。
-
+\indent 而复合Simpson公式的误差（绝对值）$Error=\frac{1}{180}h^4f''(\xi )$，其中$\xi \in (0,1)$,
+这就与我们的估计式有一定的差距，可能是因为函数拟合的位置h值还比较大，也可能是这个被积函数所特有的“过收敛现象”。\\
+\indent h小于$10^{-2}$次时，复合Simpson求积法的误差不再发生明显缩小，因为此时舍入误差对误差的贡献开始提升。
 
 \subsection{对\ref{Q2}的分析}
-观察\cref{pic:2}可知，此时的插值多项式Runge现象并不严重，这主要是因为采用了Chebyshev插值法，导致误差的上界被严格控制，
-故函数逼近较为准确。
+我们可以看到，随着h的减小，误差几乎没有变化，这是因为在Romberg积分法迭代时，每迭代一次，插值点间的距离便会缩小一半，
+所以算法的效果并不很依赖于初始的h值。
 
 \subsection{对\ref{Q3}的分析}
-观察\cref{pic:3}可知，线性插值函数无Runge现象，但插值函数在插值点处不平滑。
+我们可以看到，误差变动很大，但在h小于$10^{-7}$后稳定在了一个值，这应该是因为每一个小区间中积分的误差都已经小于规定的阈值（$10^{-6}$）。
 
-\subsection{对\ref{Q4}、\ref{Q5}的分析}
-观察\cref{pic:4}、\cref{pic:5}可知，分段三次Hermite插值函数和分段三次样条差值函数都不会发生Runge现象，
-这主要是因为小区间拟合减少了插值函数的可波动性（即减少了与原函数之间的差值上界）。
+\subsection{对\ref{Q4}的分析}
+各种方法的最小、最大误差和对于某个h计算使用的最长时间如下：
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Method & Min error & Max error & Run time(ms) \\
+\hline
+复合梯形 & 8.881784197001252e-16 & 5.3299859885281755 & 31.97479248046875\\
+\hline
+复合Simpson & 8.881784197001252e-16 & 4.942001517281957 & 28.298377990722\\
+\hline
+Romberg & 8.881784197001252e-15 & 8.881784197001252e-15 & 33.70404243469238\\
+\hline
+自适应Simpson & 1.8865497430908817e-07 & 0.0036696045968218627 & 14.763355255126953\\
+\hline
+复合Gauss两点 & 1.8865497430908817e-07 & 0.0036696045968218627 & 8.5732936859\\
+\hline
+\end{tabular}
+\end{center}
+\textbf{注：Romberg求积法中不同的迭代终止条件会极大地影响算法的结果与运行时间，
+于是我们设置了最大迭代次数为14作为唯一的终止条件，使其运行时间与其他方法较为接近，以便比较。}\\
+\indent 结合上表、\cref{pic:4}和\cref{pic:5}，复合梯形公式与复合Simpson公式在h足够小时误差能够达到浮点数下界，
+但运行时间较长，并且需要随着h的减小收敛；Romberg求积法得益于多次的迭代，对初始的h值非常不敏感，运行时间长但能够始终维持
+误差几乎不变。而自适应和复合Gauss两点求积法能达到的精度较低，但运行时间有较大优势，同时误差始终保持在一个较低水准，稳定性很强。\\
+\indent 不过事实上，我们可以发现，h在$10^{-3}$次处复合梯形公式和复合Simpson公式的运行时间几乎为0，但是此处计算的误差已经
+达到$10^{-15}$的量级，所以从单个任务的应用来说，我们可以选取合适的h，使用复合梯形或者复合Simpson求积法达到时间和精度的完美平衡。
 
 \section{附录：程序代码}
 \begin{lstlisting}[language=Python,caption={Fifth Chapter 1A.py},label={code1.1}]
@@ -163,7 +178,7 @@ def f(x):
 
 
 def composite_trapezoidal(a, b, h):
-    n = int((b - a) / h)
+    n = int((b - a) / (2 * h)) * 2
     x = np.linspace(a, b, n+1)
     y = f(x)
     s = (y[0] + y[n] + 2 * np.sum(y[1:n])) * h / 2
@@ -222,194 +237,246 @@ plt.legend()
 plt.show()    
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python,caption={Fourth Week 1B.py},label={code2.1}]
+\begin{lstlisting}[language=Python,caption={Fifth Chapter 1B.py},label={code1.2}]
 import numpy as np
 import matplotlib.pyplot as plt
-def f(x):
-    return 1 / (1 + x ** 2)
-n = 20
-x_nodes = 5 * np.cos((2 * np.arange(n) + 1) * np.pi / 42)
-def Lk(x, k, x_nodes):
-    l = np.ones_like(x)
-    for i in range(len(x_nodes)):
-        if i == k:
-            continue
-        l *= (x - x_nodes[i]) / (x_nodes[k] - x_nodes[i])
-    return l
-def lagrange_interp(x, x_nodes, y_nodes):
-    interp = 0
-    for k in range(len(x_nodes)):
-        interp += y_nodes[k] * Lk(x, k, x_nodes)
-    return interp
-x = np.linspace(-5, 5, 1000)
-y_true = f(x)
-y_interp = lagrange_interp(x, x_nodes, f(x_nodes))
 
-plt.plot(x, y_true, label='True Function')
-plt.plot(x, y_interp, label='Lagrange Interpolation')
-plt.plot(x_nodes, f(x_nodes), 'ro', label='Interpolation Nodes')
+
+def f(x):
+    return 4 / (1 + x**2)
+
+def romberg(f, a, b, h, max_iterations=20, epsilon=1e-7):
+    R = [[0] * (max_iterations + 1) for _ in range(max_iterations + 1)]
+    R[0][0] = 0.5 * (b - a) * (f(a) + f(b))
+    for i in range(1, max_iterations + 1):
+        h = (b - a) / (2 ** i)
+        sum = 0.0
+        for k in range(1, 2 ** (i - 1) + 1):
+            x = a + (k - 0.5) * 2 * h
+            sum += f(x)
+        R[i][0] = 0.5 * R[i - 1][0] + h * sum
+        for j in range(1, i + 1):
+            R[i][j] = (4 ** j * R[i][j - 1] - R[i - 1][j - 1]) / (4 ** j - 1)
+            if j==i and np.abs(R[i][j]-R[i][j-1])<epsilon:
+                return R[i][j]
+    return R[max_iterations][max_iterations]
+
+a, b = 0, 1
+
+romberg_errors = np.array([])
+
+h_values = np.array([0.4**i for i in range(1, 15)])
+
+for i in h_values:
+    romberg_error = np.abs(romberg(f, a, b, i) - np.pi)
+    romberg_errors = np.append(romberg_errors, romberg_error)
+
+plt.plot(h_values, romberg_errors, label="Romberg")
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel('h')
+plt.ylabel('Error')
+plt.gca().invert_xaxis()
 plt.legend()
 plt.show()
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python,caption={Fourth Week 1C.py},,label={code3.1}]
+\begin{lstlisting}[language=Python,caption={Fifth Chapter 1C.py},,label={code1.3}]
 import numpy as np
 import matplotlib.pyplot as plt
+
 
 def f(x):
-    return 1/(1+x**2)
+    return 4 / (1 + x**2)
 
-x = np.linspace(-5, 5, 11)
-y = f(x)
-from scipy import interpolate
-lin_interp = interpolate.interp1d(x, y)
-xx = np.linspace(-5, 5, 101)
-yy = lin_interp(xx)
+def composite_simpson(f, a, b, h):
+    n = int((b - a) / (2 * h)) * 2
+    x = np.linspace(a, b, n+1)
+    y = f(x)
+    s = (y[0] + y[n] + 4 * np.sum(y[1:n:2]) + 2 * np.sum(y[2:n-1:2])) * h / 3
+    return s
 
-plt.plot(xx, f(xx), label='Function')
-plt.plot(xx, yy, label='Linear Interpolation')
-plt.scatter(x, y, color="red", label='Interpolation Nodes')
+def adaptive_integration(f, a, b, h, epsilon=1e-6, max_depth=50):
+    x0 = a
+    x2 = b
+    x1 = (a + b) / 2.0
+    S0 = composite_simpson(f, a, b, (b-a)/2)
+    S1 = composite_simpson(f, x0, x1, (x1-x0)/2)
+    S2 = composite_simpson(f, x1, x2, (x2-x1)/2)
+    error = abs(S0 - S1 - S2)
+    if error < epsilon or max_depth == 0:
+        return S1 + S2
+    else:
+        left_integral = adaptive_integration(
+            f, x0, x1, epsilon / 2, h / 2, max_depth - 1)
+        right_integral = adaptive_integration(
+            f, x1, x2, epsilon / 2, h / 2, max_depth - 1)
+        return left_integral + right_integral
+
+
+a, b = 0, 1
+
+adaptive_errors = np.array([])
+
+h_values = np.array([0.5**i for i in range(1, 60)])
+
+for i in h_values:
+    adaptive_error = np.abs(adaptive_integration(f, a, b, i) - np.pi)
+    adaptive_errors = np.append(adaptive_errors, adaptive_error)
+
+plt.plot(h_values, adaptive_errors, label="Adaptive")
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel('h')
+plt.ylabel('Error')
+plt.gca().invert_xaxis()
+plt.legend()
+plt.show()    
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python,caption={Fifth Chapter 2.py},label={code2.1}]
+import matplotlib.pyplot as plt
+import time
+
+def f(t):
+        return t**3 / (1 - t)**5 * 1/(np.exp(t / (1 - t))-1) if t!=0 and t!=1 else 0
+
+
+def composite_trapezoidal(f, a, b, h):
+    n = int((b - a) / (2 * h)) * 2
+    x = np.linspace(a, b, n+1)
+    y = list(map(f, x))
+    s = (y[0] + y[n] + 2 * np.sum(y[1:n])) * h / 2
+    return s
+
+
+def composite_simp_errorson(f, a, b, h):
+    n = int((b - a) / h)
+    x = np.linspace(a, b, n+1)
+    y = list(map(f,x))
+    s = (y[0] + y[n] + 4 * np.sum(y[1:n:2]) + 2 * np.sum(y[2:n-1:2])) * h / 3
+    return s
+
+
+def romberg_integration(f, a, b, h, max_iterations=14, epsilon=1e-13):
+    R = [[0] * (max_iterations + 1) for _ in range(max_iterations + 1)]
+    R[0][0] = 0.5 * (b - a) * (f(a) + f(b))
+    for i in range(1, max_iterations + 1):
+        h = (b - a) / (2 ** i)
+        sum = 0.0
+        for k in range(1, 2 ** (i - 1) + 1):
+            x = a + (k - 0.5) * 2 * h
+            sum += f(x)
+        R[i][0] = 0.5 * R[i - 1][0] + h * sum
+        for j in range(1, i + 1):
+            R[i][j] = (4 ** j * R[i][j - 1] - R[i - 1][j - 1]) / (4 ** j - 1)
+    return R[max_iterations][max_iterations]
+
+
+def adaptive_integration(f, a, b, h, epsilon=1e-6, max_depth=50):
+    x0 = a
+    x2 = b
+    x1 = (a + b) / 2.0
+    S0 = composite_simp_errorson(f, a, b, (b-a)/2)
+    S1 = composite_simp_errorson(f, x0, x1, (x1-x0)/2)
+    S2 = composite_simp_errorson(f, x1, x2, (x2-x1)/2)
+    error = abs(S0 - S1 - S2)
+    if error < epsilon or max_depth == 0:
+        return S1 + S2
+    else:
+        left_integral = adaptive_integration(
+            f, x0, x1, epsilon / 2, h / 2, max_depth - 1)
+        right_integral = adaptive_integration(
+            f, x1, x2, epsilon / 2, h / 2, max_depth - 1)
+        return left_integral + right_integral
+
+
+def composite_gauss_twopoint(f, a, b, h):
+    x = np.array([-np.sqrt(1/3), np.sqrt(1/3)])
+    w = np.array([1, 1])
+    n = (b - a) / h
+    intervals = np.linspace(a, b, n+1)
+    integral = 0
+    for i in range(n):
+        x_new = (x + 1) * intervals[i] / 2 + (1 - x) * intervals[i+1] / 2
+        integral += h/2 * np.sum(w * f(x_new))
+    return integral
+
+a, b = 0, 1
+h_values = np.array([0.5**i for i in range(1, 15)])
+
+trap_errors = np.array([])
+trap_times=np.array([])
+for i in h_values:
+    _st = time.time()
+    trap = np.abs(composite_trapezoidal(f, a, b, i))
+    _ed=time.time()
+    trap_errors = np.append(trap_errors, np.abs(trap-np.power(np.pi,4)/15))
+    trap_times=np.append(trap_times,_ed-_st)
+print(f"复合梯形公式最小误差：{np.min(trap_errors)}，最大误差：{np.max(trap_errors)}，最多用时（ms）：{1000*max(trap_times)}")
+
+simp_errors = np.array([])
+simp_times=np.array([])
+for i in h_values:
+    _st = time.time()
+    simp = np.abs(composite_simp_errorson(f, a, b, i))
+    _ed = time.time()
+    simp_errors = np.append(simp_errors, np.abs(simp-np.power(np.pi,4)/15))
+    simp_times=np.append(simp_times,_ed-_st)
+print(f"复合Simpson公式最小误差：{np.min(simp_errors)}，最大误差：{np.max(simp_errors)}，最多用时（ms）：{1000*max(simp_times)}")
+
+romberg_errors = np.array([])
+romberg_times=np.array([])
+for i in h_values:
+    _st = time.time()
+    romberg = np.abs(romberg_integration(f, a, b, i))
+    _ed = time.time()
+    romberg_errors = np.append(romberg_errors, np.abs(romberg-np.power(np.pi,4)/15))
+    romberg_times=np.append(romberg_times,_ed-_st)
+print(f"Romberg最小误差：{np.min(romberg_errors)}，最大误差：{np.max(romberg_errors)}，最多用时（ms）：{1000*max(romberg_times)}")
+
+adaptive_errors = np.array([])
+adaptive_times=np.array([])
+for i in h_values:
+    _st = time.time()
+    adaptive = np.abs(adaptive_integration(f, a, b, i))
+    _ed = time.time()
+    adaptive_errors = np.append(adaptive_errors, np.abs(adaptive-np.power(np.pi,4)/15))
+    adaptive_times=np.append(adaptive_times,_ed-_st)
+print(f"自适应最小误差：{np.min(adaptive_errors)}，最大误差：{np.max(adaptive_errors)}，最多用时（ms）：{1000*max(adaptive_times)}")
+
+gauss_errors=np.array([])
+gauss_times=np.array([])
+for i in h_values:
+    _st = time.time()
+    gauss = np.abs(adaptive_integration(f, a, b, i))
+    _ed = time.time()
+    gauss_errors = np.append(gauss_errors, np.abs(gauss-np.power(np.pi,4)/15))
+    gauss_times=np.append(gauss_times,_ed-_st)
+print(f"复合Gauss两点最小误差：{np.min(gauss_errors)}，最大误差：{np.max(gauss_errors)}，最多用时（ms）：{1000*max(gauss_times)}")
+
+plt.plot(h_values, trap_errors, label="Composite Trapezoidal")
+plt.plot(h_values, simp_errors, label="Composite Simpson")
+plt.plot(h_values, romberg_errors, label="Romberg")
+plt.plot(h_values, adaptive_errors, label="Adaptive")
+plt.plot(h_values, gauss_errors, label="Gauss")
+plt.xscale('log')
+plt.xlabel('h')
+plt.ylabel('Error')
+plt.gca().invert_xaxis()
 plt.legend()
 plt.show()
-\end{lstlisting}
 
-\begin{lstlisting}[language=Python,caption={Fourth Week 1D 1.py},label={code4.1}]
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.interpolate import CubicSpline
-
-def f(x):
-    return 1 / (1 + x**2)
-
-x = np.linspace(-5, 5, 11)
-y = f(x)
-cs = CubicSpline(x, y)
-
-x_vals = np.linspace(-5, 5, 100)
-plt.plot(x_vals, f(x_vals), label='Original function')
-plt.plot(x_vals, cs(x_vals), label='Cubic spline') 
-plt.scatter(x, y, c='r', label='Interpolation Points')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Cubic spline interpolation')
+plt.plot(h_values, trap_times*1000, label="Composite Trapezoidal")
+plt.plot(h_values, simp_times*1000, label="Composite Simpson")
+plt.plot(h_values, romberg_times*1000, label="Romberg")
+plt.plot(h_values, adaptive_times*1000, label="Adaptive")
+plt.plot(h_values, gauss_times, label="Gauss")
+plt.xscale('log')
+plt.xlabel('h')
+plt.ylabel('Run time(ms)')
+plt.gca().invert_xaxis()
 plt.legend()
-plt.show()
-\end{lstlisting}
-
-\begin{lstlisting}[language=Python,caption={Fourth Week 1D 2.py},label={code4.2}]
-import numpy as np
-import matplotlib.pyplot as plt
-
-def natural_cubic_spline(x, y):
-    n = len(x)
-    a = y.copy()
-    b = np.zeros(n)
-    d = np.zeros(n)
-    h = np.diff(x)
-    alpha = np.zeros(n-1)
-    for i in range(1, n-1):
-        alpha[i] = 3/h[i]*(a[i+1]-a[i])-3/h[i-1]*(a[i]-a[i-1])
-    c = np.zeros(n)
-    l = np.zeros(n)
-    mu = np.zeros(n-1)
-    z = np.zeros(n)
-    l[0] = 1
-    mu[0] = 0
-    z[0] = 0
-    for i in range(1, n-1):
-        l[i] = 2*(x[i+1]-x[i-1])-h[i-1]*mu[i-1]
-        mu[i] = h[i]/l[i]
-        z[i] = (alpha[i]-h[i-1]*z[i-1])/l[i]
-    l[n-1] = 1
-    z[n-1] = 0
-    for j in range(n-2, -1, -1):
-        c[j] = z[j]-mu[j]*c[j+1]
-        b[j] = (a[j+1]-a[j])/h[j]-h[j]*(c[j+1]+2*c[j])/3
-        d[j] = (c[j+1]-c[j])/(3*h[j])
-    return a, b, c, d
-
-def eval_cubic_spline(x_eval, x, a, b, c, d):
-    idx = np.digitize(x_eval, x) - 1
-    idx = np.clip(idx, 0, len(x)-2)
-    h = x_eval - x[idx]
-    y_eval = a[idx] + b[idx]*h + c[idx]*h**2 + d[idx]*h**3
-    return y_eval
-
-R = lambda x: 1/(1+x**2)
-
-x = np.linspace(-5, 5, 11)
-y = R(x)
-
-a, b, c, d = natural_cubic_spline(x, y)
-
-x_eval = np.linspace(-5, 5, 501)
-y_eval = eval_cubic_spline(x_eval, x, a, b, c, d)
-
-fig, ax = plt.subplots(figsize=(8, 6))
-ax.plot(x_eval, R(x_eval), label='Original function')
-ax.plot(x_eval, y_eval, label='Cubic Spline')
-ax.scatter(x, y, c='r', label='Interpolation Nodes')
-ax.legend(loc='upper left')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_title('Cubic Spline Interpolation')
-plt.show()
-\end{lstlisting}
-
-\begin{lstlisting}[language=Python,caption={Fourth Week 1E 1.py},label={code5.1}]
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.interpolate import PchipInterpolator
-
-def f(x):
-    return 1 / (1 + x**2)
-
-x = np.linspace(-5, 5, 11)
-y = f(x)
-interp_func = PchipInterpolator(x, y)
-xx = np.linspace(-5, 5, 1000)
-yy = f(xx)
-
-plt.plot(xx, yy, label='Original Function') 
-plt.plot(xx, interp_func(xx), label='Hermite Interpolation')
-plt.scatter(x, y, c='r', label='Interpolation Points')
-plt.legend()
-plt.show()
-\end{lstlisting}
-
-\begin{lstlisting}[language=Python,caption={Fourth Week 1E 2.py},label={code5.2}]
-import numpy as np
-import matplotlib.pyplot as plt
-
-R = lambda x: 1/(1+x**2)
-
-x = np.linspace(-5, 5, 11)
-y = R(x)
-
-R_deriv = lambda x: -2*x/(1+x**2)**2
-y_deriv = R_deriv(x)
-
-h = np.diff(x)
-a = y[:-1]
-b = y_deriv[:-1]
-c = (-3*h*y[:-1] - 2*h*y_deriv[:-1] + 3*h*y[1:] - h*y_deriv[1:])/(h**2)
-d = (2*h*y[:-1] + h*y_deriv[:-1] - 2*h*y[1:] + h*y_deriv[1:])/(h**3)
-
-x_eval = np.linspace(-5, 5, 501)
-y_eval = np.zeros_like(x_eval)
-for i in range(len(x)-1):
-    idx = np.logical_and(x_eval >= x[i], x_eval <= x[i+1])
-    h_i = x_eval[idx] - x[i]
-    y_eval[idx] = a[i] + b[i]*h_i + c[i]*h_i**2 + d[i]*h_i**3
-
-fig, ax = plt.subplots(figsize=(8, 6))
-ax.plot(x_eval, R(x_eval), label='Original function')
-ax.plot(x_eval, y_eval, label='Hermite Interpolation')
-ax.scatter(x, y, c='r',label='Interpolation Nodes')
-ax.legend(loc='upper left')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_title('Hermite Interpolation')
 plt.show()
 \end{lstlisting}
 \end{document}
