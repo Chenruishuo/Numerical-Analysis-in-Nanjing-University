@@ -107,7 +107,8 @@
 \end{figure}
 
 \subsection{对\ref{Q4}的解答}
-我们使用了复合梯形公式、复合Simpson公式、Romberg积分法、自适应积分法，代码见\cref{code2.1}。
+首先，我们使用$t=\frac{1}{1+x}$的坐标变换将积分区间从$[0,+\infty]$变换到$[0,1]$,并补充定义0和1处的函数值为0。
+然后我们使用了复合梯形公式、复合Simpson公式、Romberg积分法、自适应积分法计算变换后的积分，代码见\cref{code2.1}。
 得到计算出的误差（用数学方法可以算出此积分的精确值为$\frac{\pi^4}{15}$）和h的关系如\cref{pic:4}。
 \begin{figure}[H]
     \centering

@@ -31,6 +31,8 @@
 \fancyhead[R]{\thepage}
 \setlength{\headheight}{14pt}
 
+\definecolor{darkgreen}{RGB}{0,150,0}
+
 \usepackage{listings}  % 引入 listings 包
 \lstset{                % 定义代码块的样式
     basicstyle=\normalsize\ttfamily, % 设定代码字体大小、样式
@@ -43,7 +45,7 @@
     captionpos=t,       % 设定标题位置为底部
     keywordstyle=\bfseries\color{blue}\ttfamily,
     stringstyle=\color{red}\ttfamily,
-    commentstyle=\color{green}\ttfamily,
+    commentstyle=\color{darkgreen}\ttfamily,
     morecomment=[l][\color{magenta}]{\#},
     framesep=0.5em,
     frameround=tttt,
