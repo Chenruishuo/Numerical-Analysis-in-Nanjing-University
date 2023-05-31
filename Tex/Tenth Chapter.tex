@@ -96,7 +96,7 @@
     \caption{误差（绝对值）和x的关系}
     \label{pic:1}
 \end{figure}
-得到x=2处的误差如\cref{tab:1}。
+得到x=2处的误差比较如\cref{tab:1}。
 \begin{table}[ht]
     \begin{center}
     \begin{tabular}{|c|c|}
@@ -120,6 +120,15 @@
         \label{tab:1}
     \end{center}
 \end{table}
+\\
+\\
+\\
+\\
+\section{结果分析}
+\subsection{对\ref{Q1}，\ref{Q2}的分析}
+如\cref{tab:1}，各种方法中Euler方法作为最朴实无华的方法，收敛速度远远慢于其他方法，
+而改进的 Euler 方法、Heun 公式、中点方法收敛速度较为接近，四阶 Runge-Kutta 方法、Adams 方法
+拥有阶数和步数上的优势，所以有更快的收敛速度。
 
 \section{附录：程序代码}
 \begin{lstlisting}[language=Python,caption={Tenth Chapter.py},label={code1}]
