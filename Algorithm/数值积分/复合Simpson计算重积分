@@ -1,0 +1,17 @@
+import numpy as np
+def composite_simpson(f0, a, b, h):
+    n = int((b - a) / h)
+    x = np.linspace(a, b, n+1)
+    y = f0(x)
+    s = (y[0] + y[n] + 4 * np.sum(y[1:n:2]) + 2 * np.sum(y[2:n-1:2])) * h / 3
+    return s
+
+#使用两次复合Simpson计算重积分
+def composite_simpson2(f, a, b, c, d, hx, hy):
+    def f1(x):
+        return np.array([composite_simpson(lambda y: f(x0, y), c, d, hy) for x0 in x]) if x.ndim == 1 else composite_simpson(lambda y: f(x, y), c, d, hy)
+    return composite_simpson(f1, a, b, hx)
+#测试  
+def f(x, y):
+    return x*y
+print(composite_simpson2(f, 0, 1, 0, 1, 0.01, 0.01))

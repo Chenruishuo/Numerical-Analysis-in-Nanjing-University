@@ -1,0 +1,10 @@
+import numpy as np
+#Gauss-Chebyshev求积公式
+def Gauss_Chebyshev(f, a, b, n):
+    x = np.cos(np.pi * (2 * np.arange(1, n + 1) - 1) / (2 * n))
+    G = np.pi / n * np.sum(f(0.5 * (b - a) * x + 0.5 * (b + a)))
+    return G
+#测试
+def f(x):
+    return x**2
+print(Gauss_Chebyshev(f, -1, 1, 100))

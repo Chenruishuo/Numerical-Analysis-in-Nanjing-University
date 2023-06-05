@@ -20,7 +20,7 @@ def adaptive_integration(f, a, b, h, epsilon=1e-6, max_depth=50):
     S1 = composite_simpson(f, x0, x1, (x1-x0)/2)
     S2 = composite_simpson(f, x1, x2, (x2-x1)/2)
     error = abs(S0 - S1 - S2)
-    if error < epsilon or max_depth == 0:
+    if error < 15 * epsilon or max_depth == 0:
         return S1 + S2
     else:
         left_integral = adaptive_integration(
